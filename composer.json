@@ -1,0 +1,21 @@
+{
+	"name": "w7/compat",
+	"description": "rangine compat",
+	"keywords": [
+		"rangine",
+		"compat"
+	],
+	"license": "Apache-2.0",
+	"require": {
+		"php": ">=7.1.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"W7\\Compat\\": "src/"
+		},
+		"files": [
+			"src/Route/Route.php",
+			"src/Route/Router.php"
+		]
+	}
+}
