@@ -1,5 +1,5 @@
 {
-	"name": "w7/compat",
+	"name": "w7/rangine-compat",
 	"description": "rangine compat",
 	"keywords": [
 		"rangine",
@@ -15,7 +15,8 @@
 		},
 		"files": [
 			"src/Route/Route.php",
-			"src/Route/Router.php"
+			"src/Route/Router.php",
+			"src/Exception/Handler/HandlerAbstract.php"
 		]
 	}
 }
