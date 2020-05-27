@@ -14,7 +14,6 @@ namespace W7\Core\Route;
 
 use FastRoute\RouteParser\Std;
 use FastRoute\DataGenerator\GroupCountBased;
-use W7\Core\Route\Validator\ValidatorInterface;
 
 /**
  * Class Route
@@ -46,9 +45,7 @@ class Route {
 
 	private $name = '';
 
-	public function __construct(RouteCollector $collector = null) {
-		$compat = 1;
-		var_dump($compat);
+	public function __construct(\FastRoute\RouteCollector $collector = null) {
 		if (!$collector) {
 			$collector = new RouteCollector(new Std(), new GroupCountBased());
 		}
@@ -61,10 +58,6 @@ class Route {
 
 	public function setRouterCollector(\FastRoute\RouteCollector $collector) {
 		$this->routerCollector = $collector;
-	}
-
-	public function registerValidator(ValidatorInterface $validator) {
-		$this->routerCollector->registerValidator($validator);
 	}
 
 	private function parseGroupOption($option) {
