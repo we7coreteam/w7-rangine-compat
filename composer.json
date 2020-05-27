@@ -7,7 +7,7 @@
 	],
 	"license": "Apache-2.0",
 	"require": {
-		"php": ">=7.1.0"
+		"w7/rangine": "*"
 	},
 	"autoload": {
 		"psr-4": {
