@@ -14,6 +14,7 @@ namespace W7\Core\Route;
 
 use FastRoute\RouteParser\Std;
 use FastRoute\DataGenerator\GroupCountBased;
+use W7\Core\Route\Validator\ValidatorInterface;
 
 /**
  * Class Route
@@ -45,19 +46,23 @@ class Route {
 
 	private $name = '';
 
-	public function __construct(\FastRoute\RouteCollector $collector = null) {
-		if (!$collector) {
-			$collector = new RouteCollector(new Std(), new GroupCountBased());
+	public function __construct(RouteCollector $routeCollector = null) {
+		if (!$routeCollector) {
+			$routeCollector = new RouteCollector(new Std(), new GroupCountBased());
 		}
-		$this->routerCollector = $collector;
+		$this->routerCollector = $routeCollector;
 	}
 
 	public function getRouterCollector() {
 		return $this->routerCollector;
 	}
 
-	public function setRouterCollector(\FastRoute\RouteCollector $collector) {
-		$this->routerCollector = $collector;
+	public function setRouterCollector(RouteCollector $routeCollector) {
+		$this->routerCollector = $routeCollector;
+	}
+
+	public function registerValidator(ValidatorInterface $validator) {
+		$this->routerCollector->registerValidator($validator);
 	}
 
 	private function parseGroupOption($option) {
@@ -83,7 +88,7 @@ class Route {
 	public function group($option, callable $callback) {
 		$option = $this->parseGroupOption($option);
 
-		$this->routerCollector->addGroup($option['prefix'], function (RouteCollector $route) use ($callback, $option) {
+		$this->routerCollector->addGroup($option['prefix'], function (RouteCollector $routeCollector) use ($callback, $option) {
 			$groupInfo = [];
 			$groupInfo['prefix'] = $option['prefix'];
 			$groupInfo['namespace'] = $option['namespace'];
@@ -160,12 +165,11 @@ class Route {
 
 	private function isStaticResource($resource) {
 		if (is_string($resource)) {
-			$config = iconfig()->getServer();
-			$enableStatic = $config['common']['enable_static_handler'] ?? true;
-			$path = $config['common']['document_root'] ?? BASE_PATH . '/public';
-			if ($enableStatic && $path) {
+			$documentRoot = iconfig()->get('server.common.document_root', BASE_PATH . '/public');
+			$enableStatic = iconfig()->get('server.common.enable_static_handler', true);
+			if ($enableStatic && $documentRoot) {
 				$module = $this->getModule() === $this->defaultModule ? '' : '/' . $this->getModule();
-				$path = rtrim($path, '/') . '/' . $module . '/' . ltrim($resource, '/');
+				$path = rtrim($documentRoot, '/') . '/' . $module . '/' . ltrim($resource, '/');
 				return file_exists($path);
 			}
 		}
@@ -194,11 +198,6 @@ class Route {
 	public function redirect($uri, $destination, $status = 302) {
 		if ($this->isStaticResource($destination)) {
 			$destination = $this->getStaticResourcePath($destination);
-			$config = iconfig()->getServer();
-			$staticPath = rtrim($config['common']['document_root'] ?? BASE_PATH . '/public', '/');
-			if (filesize($staticPath . $destination) <= 0) {
-				throw new \ErrorException('static file can\'t be empty, ' . $staticPath . $destination, 500);
-			}
 		}
 
 		$this->any($uri, ['\W7\Core\Controller\RedirectController', 'index'], '', [$destination, $status]);
@@ -227,13 +226,9 @@ class Route {
 	public function add($methods, $uri, $handler, $name = '', $defaults = []) {
 		if ($this->isStaticResource($handler)) {
 			$handler = $this->getStaticResourcePath($handler);
-			$config = iconfig()->getServer();
-			$staticPath = rtrim($config['common']['document_root'] ?? BASE_PATH . '/public', '/');
-			if (filesize($staticPath . $handler) <= 0) {
-				throw new \ErrorException('static file can\'t be empty, ' . $staticPath . $handler, 500);
-			}
+			$documentRoot = rtrim(iconfig()->get('server.common.document_root', BASE_PATH . '/public'), '/');
 
-			$defaults = [$staticPath . $handler];
+			$defaults = [$documentRoot . $handler];
 			$handler = ['\W7\Core\Controller\StaticResourceController', 'index'];
 		}
 		$handler = $this->checkHandler($handler);
