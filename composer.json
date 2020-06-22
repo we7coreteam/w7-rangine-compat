@@ -16,7 +16,8 @@
 		"files": [
 			"src/Route/Route.php",
 			"src/Route/Router.php",
-			"src/Exception/Handler/HandlerAbstract.php"
+			"src/Exception/Handler/HandlerAbstract.php",
+			"src/Helper/Functions.php"
 		]
 	}
 }
