@@ -10,7 +10,10 @@
  * visited https://www.rangine.com/ for more details
  */
 
+use Illuminate\Validation\Factory;
+use Illuminate\Validation\ValidationException;
 use W7\App;
+use W7\Core\Exception\ValidatorException;
 use W7\Core\Facades\Event;
 use W7\Core\Facades\Container;
 use W7\Core\Facades\Router;
@@ -133,5 +136,63 @@ if (!function_exists('irouter')) {
 	 */
 	function irouter() {
 		return Router::getFacadeRoot();
+	}
+}
+
+if (!function_exists('ivalidator')) {
+	/**
+	 * @deprecated
+	 * @return Factory
+	 */
+	function ivalidator() : Factory {
+		$validator = Container::singleton(Factory::class);
+		return $validator;
+	}
+}
+
+if (!function_exists('ivalidate')) {
+	function ivalidate(array $data, array $rules, array $messages = [], array $customAttributes = []) {
+		try {
+			/**
+			 * @var Factory $validate
+			 */
+			$result = \W7\Core\Facades\Validator::make($data, $rules, $messages, $customAttributes)
+				->validate();
+		} catch (ValidationException $e) {
+			$errorMessage = [];
+			$errors = $e->errors();
+			foreach ($errors as $field => $message) {
+				$errorMessage[] = $message[0];
+			}
+			throw new ValidatorException(implode('; ', $errorMessage), 403);
+		}
+
+		return $result;
+	}
+}
+
+if (!function_exists('itask')) {
+	/**
+	 * 派发一个异步任务
+	 * @deprecated
+	 * @param string $taskName
+	 * @param array $params
+	 * @param int $timeout
+	 * @return false|int
+	 * @throws \W7\Core\Exception\TaskException
+	 */
+	function itask($taskName, $params = [], int $timeout = 3) {
+		return \W7\Core\Facades\Task::execute($taskName, $params, $timeout);
+	}
+
+	/**
+	 * @deprecated
+	 * @param $taskName
+	 * @param array $params
+	 * @param int $timeout
+	 * @return mixed
+	 */
+	function itaskCo($taskName, $params = [], int $timeout = 3) {
+		return \W7\Core\Facades\Task::executeInCo($taskName, $params, $timeout);
 	}
 }
