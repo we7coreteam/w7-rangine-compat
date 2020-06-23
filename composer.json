@@ -15,6 +15,7 @@
 		},
 		"files": [
 			"src/App.php",
+			"src/Core/Config/Config.php",
 			"src/Core/Route/Route.php",
 			"src/Core/Route/Router.php",
 			"src/Core/Exception/Handler/HandlerAbstract.php",
