@@ -14,10 +14,11 @@
 			"W7\\Compat\\": "src/"
 		},
 		"files": [
-			"src/Route/Route.php",
-			"src/Route/Router.php",
-			"src/Exception/Handler/HandlerAbstract.php",
-			"src/Helper/Functions.php"
+			"src/App.php",
+			"src/Core/Route/Route.php",
+			"src/Core/Route/Router.php",
+			"src/Core/Exception/Handler/HandlerAbstract.php",
+			"src/Core/Helper/Functions.php"
 		]
 	}
 }
