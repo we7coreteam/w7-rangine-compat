@@ -14,6 +14,7 @@ use Illuminate\Validation\Factory;
 use Illuminate\Validation\ValidationException;
 use W7\App;
 use W7\Core\Exception\ValidatorException;
+use W7\Core\Facades\Context;
 use W7\Core\Facades\Event;
 use W7\Core\Facades\Container;
 use W7\Core\Facades\Router;
@@ -194,5 +195,42 @@ if (!function_exists('itask')) {
 	 */
 	function itaskCo($taskName, $params = [], int $timeout = 3) {
 		return \W7\Core\Facades\Task::executeInCo($taskName, $params, $timeout);
+	}
+}
+
+if (!function_exists('irandom')) {
+	/**
+	 * @deprecated
+	 * @param $length
+	 * @param bool $numeric
+	 * @return string
+	 */
+	function irandom($length, $numeric = false) {
+		$seed = base_convert(md5(microtime()), 16, $numeric ? 10 : 35);
+		$seed = $numeric ? (str_replace('0', '', $seed) . '012340567890') : ($seed . 'zZ' . strtoupper($seed));
+		if ($numeric) {
+			$hash = '';
+		} else {
+			$hash = chr(rand(1, 26) + rand(0, 1) * 32 + 64);
+			$length--;
+		}
+		$max = strlen($seed) - 1;
+		for ($i = 0; $i < $length; $i++) {
+			$hash .= $seed[mt_rand(0, $max)];
+		}
+		return $hash;
+	}
+}
+
+if (!function_exists('iuuid')) {
+	/**
+	 * 获取UUID
+	 * @deprecated
+	 * @return string
+	 */
+	function iuuid() {
+		$len = rand(2, 16);
+		$prefix = md5(substr(md5(Context::getCoroutineId()), $len));
+		return uniqid($prefix);
 	}
 }
