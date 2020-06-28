@@ -146,18 +146,25 @@ if (!function_exists('ivalidator')) {
 	 * @return Factory
 	 */
 	function ivalidator() : Factory {
-		$validator = Container::singleton(Factory::class);
-		return $validator;
+		return \W7\Core\Facades\Validator::getFacadeRoot();
 	}
 }
 
 if (!function_exists('ivalidate')) {
+	/**
+	 * @deprecated
+	 * @param array $data
+	 * @param array $rules
+	 * @param array $messages
+	 * @param array $customAttributes
+	 * @return array
+	 */
 	function ivalidate(array $data, array $rules, array $messages = [], array $customAttributes = []) {
 		try {
 			/**
 			 * @var Factory $validate
 			 */
-			$result = \W7\Core\Facades\Validator::make($data, $rules, $messages, $customAttributes)
+			$result = ivalidator()->make($data, $rules, $messages, $customAttributes)
 				->validate();
 		} catch (ValidationException $e) {
 			$errorMessage = [];
