@@ -137,7 +137,7 @@ class App {
 	 * @deprecated
 	 */
 	public function getLogger() {
-		return new LoggerFacade();
+		return LoggerFacade::getFacadeRoot();
 	}
 
 	/**
@@ -153,7 +153,7 @@ class App {
 	 * @return mixed|\Psr\SimpleCache\CacheInterface
 	 */
 	public function getCacher() {
-		return new CacheFacade();
+		return CacheFacade::getFacadeRoot();
 	}
 
 	public function bootstrapCachePath($path = '') {

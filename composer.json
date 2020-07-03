@@ -6,7 +6,7 @@
 		"compat"
 	],
 	"license": "Apache-2.0",
-	"require": {
+	"require-dev": {
 		"w7/rangine": "*"
 	},
 	"autoload": {
