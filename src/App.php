@@ -26,7 +26,7 @@ use W7\Http\Server\Server;
 
 class App {
 	const NAME = 'w7-rangine';
-	const VERSION = '2.3.2';
+	const VERSION = '2.3.3';
 
 	private static $self;
 	/**
