@@ -13,8 +13,6 @@
 namespace W7\Core\Config;
 
 use Illuminate\Support\Arr;
-use W7\App;
-use W7\Core\Config\Env\Env;
 
 class Config {
 	private $server;
@@ -24,45 +22,12 @@ class Config {
 		$this->payload = $payload;
 	}
 
-	public function getBuiltInConfigPath() {
-		return BASE_PATH . '/vendor/composer/rangine/autoload/config';
-	}
-
-	public function load() {
-		$loadDir = App::getApp()->getConfigCachePath();
-		if (!file_exists($loadDir)) {
-			$loadDir = BASE_PATH . '/config';
-			(new Env(BASE_PATH))->load();
-		}
-
-		$this->loadConfig($this->getBuiltInConfigPath());
-		$this->loadConfig($loadDir);
-	}
-
 	public function get($key, $default = null) {
 		return Arr::get($this->payload, $key, $default);
 	}
 
 	public function set($key, $value) {
 		return Arr::set($this->payload, $key, $value);
-	}
-
-	protected function loadConfig($configDir) {
-		$configFileTree = glob($configDir . '/*.php');
-		if (empty($configFileTree)) {
-			return $this->payload;
-		}
-
-		foreach ($configFileTree as $path) {
-			$key = pathinfo($path, PATHINFO_FILENAME);
-			$config = include $path;
-			if (is_array($config)) {
-				$this->payload[$key] = $this->payload[$key] ?? [];
-				$this->payload[$key] = array_merge_recursive($this->payload[$key], $config);
-			}
-		}
-
-		return $this->payload;
 	}
 
 	/**
