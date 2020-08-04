@@ -190,7 +190,7 @@ if (!function_exists('itask')) {
 	 * @throws \W7\Core\Exception\TaskException
 	 */
 	function itask($taskName, $params = [], int $timeout = 3) {
-		return \W7\Core\Facades\Task::execute($taskName, $params, $timeout);
+		return \W7\Core\Facades\Task::dispatch($taskName, $params, $timeout);
 	}
 
 	/**
@@ -201,7 +201,7 @@ if (!function_exists('itask')) {
 	 * @return mixed
 	 */
 	function itaskCo($taskName, $params = [], int $timeout = 3) {
-		return \W7\Core\Facades\Task::executeInCo($taskName, $params, $timeout);
+		return itask($taskName, $params, $timeout);
 	}
 }
 
