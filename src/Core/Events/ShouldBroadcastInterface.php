@@ -17,6 +17,6 @@ namespace W7\Core\Events;
  * Interface ShouldBroadcastInterface
  * @package W7\Core\Events
  */
-interface ShouldBroadcastInterface extends \W7\Contract\Events\ShouldBroadcastInterface {
+interface ShouldBroadcastInterface extends \W7\Contract\Event\ShouldBroadcastInterface {
 
 }
