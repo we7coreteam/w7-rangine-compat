@@ -7,8 +7,20 @@
 	],
 	"license": "Apache-2.0",
 	"require-dev": {
-		"w7/rangine": "*"
+		"w7/rangine": "*",
+		"w7/rangine-contract": "dev-master",
+		"w7/rangine-facade": "dev-master"
 	},
+	"repositories": [
+		{
+			"type": "path",
+			"url": "../w7-rangine-contract"
+		},
+		{
+			"type": "path",
+			"url": "../w7-rangine-facade"
+		}
+	],
 	"autoload": {
 		"psr-4": {
 			"W7\\Compat\\": "src/"
