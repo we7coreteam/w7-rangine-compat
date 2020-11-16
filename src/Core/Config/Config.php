@@ -13,8 +13,9 @@
 namespace W7\Core\Config;
 
 use Illuminate\Support\Arr;
+use W7\Contract\Config\RepositoryInterface;
 
-class Config {
+class Config implements RepositoryInterface {
 	private $server;
 	private $payload = [];
 
@@ -22,12 +23,20 @@ class Config {
 		$this->payload = $payload;
 	}
 
+	public function set($key, $value = null) {
+		return Arr::set($this->payload, $key, $value);
+	}
+
+	public function has($key) {
+		return Arr::has($this->payload, $key);
+	}
+
 	public function get($key, $default = null) {
 		return Arr::get($this->payload, $key, $default);
 	}
 
-	public function set($key, $value) {
-		return Arr::set($this->payload, $key, $value);
+	public function all() {
+		return $this->payload;
 	}
 
 	/**

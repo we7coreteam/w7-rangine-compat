@@ -17,5 +17,5 @@ namespace W7\Core\Events;
  * Interface ShouldQueueInterface
  * @package W7\Core\Events
  */
-interface ShouldQueueInterface extends \W7\Contract\Events\ShouldQueueInterface {
+interface ShouldQueueInterface extends \W7\Contract\Event\ShouldQueueInterface {
 }
