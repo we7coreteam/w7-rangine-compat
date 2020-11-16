@@ -13,6 +13,11 @@
 use Illuminate\Validation\Factory;
 use Illuminate\Validation\ValidationException;
 use W7\App;
+use W7\Contract\Cache\CacheFactoryInterface;
+use W7\Contract\Config\RepositoryInterface;
+use W7\Contract\Logger\LoggerFactoryInterface;
+use W7\Contract\Router\RouterInterface;
+use W7\Contract\Validation\ValidatorFactoryInterface;
 use W7\Core\Exception\ValidatorException;
 use W7\Core\Facades\Context;
 use W7\Core\Facades\Event;
@@ -25,7 +30,7 @@ if (!function_exists('ieventDispatcher')) {
 	function ieventDispatcher() {
 		/**
 		 * @deprecated
-		 * @var \W7\Core\Events\Dispatcher $dispatcher
+		 * @var \W7\Core\Event\Dispatcher $dispatcher
 		 */
 		return Event::getFacadeRoot();
 	}
@@ -80,7 +85,7 @@ if (!function_exists('iconfig')) {
 	/**
 	 * 输入对象
 	 * @deprecated
-	 * @return \W7\Core\Config\Config
+	 * @return RepositoryInterface
 	 */
 	function iconfig() {
 		return App::getApp()->getConfigger();
@@ -91,7 +96,7 @@ if (!function_exists('ilogger')) {
 	/**
 	 * 返回logger对象
 	 * @deprecated
-	 * @return \W7\Core\Log\Logger
+	 * @return LoggerFactoryInterface
 	 */
 	function ilogger() {
 		return App::getApp()->getLogger();
@@ -102,7 +107,7 @@ if (!function_exists('idb')) {
 	/**
 	 * 返回一个数据库连接对象
 	 * @deprecated
-	 * @return \W7\Core\Database\DatabaseManager
+	 * @return \W7\Core\Database\ConnectionResolver
 	 */
 	function idb() {
 		return DB::getFacadeRoot();
@@ -123,7 +128,7 @@ if (!function_exists('icontext')) {
 if (!function_exists('icache')) {
 	/**
 	 * @deprecated
-	 * @return \W7\Core\Cache\Cache
+	 * @return CacheFactoryInterface
 	 */
 	function icache() {
 		return App::getApp()->getCacher();
@@ -133,7 +138,7 @@ if (!function_exists('icache')) {
 if (!function_exists('irouter')) {
 	/**
 	 * @deprecated
-	 * @return \W7\Core\Route\Router
+	 * @return RouterInterface
 	 */
 	function irouter() {
 		return Router::getFacadeRoot();
@@ -143,9 +148,9 @@ if (!function_exists('irouter')) {
 if (!function_exists('ivalidator')) {
 	/**
 	 * @deprecated
-	 * @return Factory
+	 * @return ValidatorFactoryInterface
 	 */
-	function ivalidator() : Factory {
+	function ivalidator() : ValidatorFactoryInterface {
 		return \W7\Core\Facades\Validator::getFacadeRoot();
 	}
 }

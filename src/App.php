@@ -111,7 +111,6 @@ class App {
 
 	/**
 	 * @deprecated
-	 * @return mixed|\Psr\SimpleCache\CacheInterface
 	 */
 	public function getCacher() {
 		return CacheFacade::getFacadeRoot();

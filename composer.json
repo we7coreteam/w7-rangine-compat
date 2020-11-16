@@ -8,50 +8,19 @@
 	"license": "Apache-2.0",
 	"require-dev": {
 		"w7/rangine": "*",
-		"w7/rangine-contract": "dev-master",
-		"w7/rangine-facade": "dev-master"
+		"w7/rangine-contract": "*",
+		"w7/rangine-facade": "*"
 	},
-	"repositories": [
-		{
-			"type": "path",
-			"url": "../w7-rangine-contract"
-		},
-		{
-			"type": "path",
-			"url": "../w7-rangine-facade"
-		}
-	],
 	"autoload": {
 		"psr-4": {
-			"W7\\Compat\\": "src/"
+			"W7\\": "src/"
 		},
 		"files": [
 			"src/App.php",
 			"src/Core/Config/Config.php",
 			"src/Core/Route/Route.php",
-			"src/Core/Route/Router.php",
-			"src/Core/Session/SessionInterface.php",
-			"src/Core/Task/TaskInterface.php",
-			"src/Core/View/ViewInterface.php",
-			"src/Core/Route/Validator/ValidatorInterface.php",
-			"src/Core/Events/ShouldBroadcastInterface.php",
-			"src/Core/Events/ShouldQueueInterface.php",
-			"src/Core/Pool/PoolInterface.php",
 			"src/Core/Exception/Handler/HandlerAbstract.php",
-			"src/Core/Helper/Functions.php",
-			"src/Core/Facades/Cache.php",
-			"src/Core/Facades/Config.php",
-			"src/Core/Facades/Container.php",
-			"src/Core/Facades/Context.php",
-			"src/Core/Facades/DB.php",
-			"src/Core/Facades/Event.php",
-			"src/Core/Facades/Logger.php",
-			"src/Core/Facades/Output.php",
-			"src/Core/Facades/Router.php",
-			"src/Core/Facades/Session.php",
-			"src/Core/Facades/Task.php",
-			"src/Core/Facades/Validator.php",
-			"src/Core/Facades/View.php"
+			"src/Core/Helper/Functions.php"
 		]
 	}
 }
