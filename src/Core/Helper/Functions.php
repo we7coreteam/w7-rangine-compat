@@ -19,12 +19,15 @@ use W7\Contract\Logger\LoggerFactoryInterface;
 use W7\Contract\Router\RouterInterface;
 use W7\Contract\Validation\ValidatorFactoryInterface;
 use W7\Core\Exception\ValidatorException;
-use W7\Core\Facades\Context;
-use W7\Core\Facades\Event;
-use W7\Core\Facades\Container;
-use W7\Core\Facades\Router;
-use W7\Core\Facades\DB;
-use W7\Core\Facades\Output;
+use W7\Facade\Cache;
+use W7\Facade\Container;
+use W7\Facade\Context;
+use W7\Facade\DB;
+use W7\Facade\Event;
+use W7\Facade\Logger;
+use W7\Facade\Router;
+use W7\Facade\Task;
+use W7\Facade\Validator;
 
 if (!function_exists('ieventDispatcher')) {
 	function ieventDispatcher() {
@@ -77,7 +80,7 @@ if (!function_exists('ioutputer')) {
 	 * @return W7\Console\Io\Output
 	 */
 	function ioutputer() {
-		return Output::getFacadeRoot();
+		return \W7\Facade\Output::getFacadeRoot();
 	}
 }
 
@@ -99,7 +102,7 @@ if (!function_exists('ilogger')) {
 	 * @return LoggerFactoryInterface
 	 */
 	function ilogger() {
-		return App::getApp()->getLogger();
+		return Logger::getFacadeRoot();
 	}
 }
 
@@ -121,7 +124,7 @@ if (!function_exists('icontext')) {
 	 * @return \W7\Core\Helper\Storage\Context
 	 */
 	function icontext() {
-		return App::getApp()->getContext();
+		return Context::getFacadeRoot();
 	}
 }
 
@@ -131,7 +134,7 @@ if (!function_exists('icache')) {
 	 * @return CacheFactoryInterface
 	 */
 	function icache() {
-		return App::getApp()->getCacher();
+		return Cache::getFacadeRoot();
 	}
 }
 
@@ -151,7 +154,7 @@ if (!function_exists('ivalidator')) {
 	 * @return ValidatorFactoryInterface
 	 */
 	function ivalidator() : ValidatorFactoryInterface {
-		return \W7\Core\Facades\Validator::getFacadeRoot();
+		return Validator::getFacadeRoot();
 	}
 }
 
@@ -195,7 +198,7 @@ if (!function_exists('itask')) {
 	 * @throws \W7\Core\Exception\TaskException
 	 */
 	function itask($taskName, $params = [], int $timeout = 3) {
-		return \W7\Core\Facades\Task::dispatch($taskName, $params, $timeout);
+		return Task::dispatch($taskName, $params, $timeout);
 	}
 
 	/**
