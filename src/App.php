@@ -30,7 +30,7 @@ use W7\Http\Server\Server;
 
 class App {
 	const NAME = 'w7-rangine';
-	const VERSION = '2.3.13';
+	const VERSION = '2.3.14';
 
 	public static $self;
 	/**
@@ -118,7 +118,7 @@ class App {
 	}
 
 	public function bootstrapCachePath($path = '') {
-		return BASE_PATH . DIRECTORY_SEPARATOR . 'bootstrap/cache' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+		return BASE_PATH . '/' . 'bootstrap/cache' . ($path ? ('/' . $path) : $path);
 	}
 
 	public function getRouteCachePath() {
